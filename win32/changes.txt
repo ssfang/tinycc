@@ -1,0 +1,117 @@
+
+## 使用VS2013了解tcc
+
+vs2015下解决方案用vs2013打开后编译报编译平台错误，libtcc.dll和tcc.exe两个工程项目都修改为vs2013编译平台。
+libtcc.dll输出目录为$(SolutionDir)Debug（），而tcc.exe也是，同时会依赖前者，故其工程配置属性-链接器-常规-附加库目录为Debug或Release，其实可以设置为变量$(Configuration)。
+
+添加tinycc\tests\libtcc_test.c作为源的测试libtcc.dll功能的项目libtcc_test。
+需要，其工程配置属性-VC++目录-包含目录设置为“$(SolutionDir)..\..”，同上附加库目录设置为$(Configuration)
+
+$(SolutionDir)$(Configuration)\
+
+D:\ProgramFiles\Microsoft Visual Studio 12.0>dumpbin  /DEPENDENTS F:\repo\tcc\tinycc\win32\tcc.exe
+Microsoft (R) COFF/PE Dumper Version 12.00.21005.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file F:\repo\tcc\tinycc\win32\tcc.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    libtcc.dll
+    KERNEL32.dll
+    MSVCR120D.dll
+
+  Summary
+
+        1000 .data
+        1000 .idata
+        3000 .rdata
+        1000 .reloc
+        1000 .rsrc
+        5000 .text
+       10000 .textbss
+
+D:\ProgramFiles\Microsoft Visual Studio 12.0>dumpbin  /EXPORTS F:\repo\tcc\tinycc\win32\libtcc.dll
+Microsoft (R) COFF/PE Dumper Version 12.00.21005.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file F:\repo\tcc\tinycc\win32\libtcc.dll
+
+File Type: DLL
+
+  Section contains the following exports for libtcc.dll
+
+    00000000 characteristics
+    57658732 time date stamp Sun Jun 19 01:38:58 2016
+        0.00 version
+           1 ordinal base
+          37 number of functions
+          37 number of names
+
+    ordinal hint RVA      name
+
+          1    0 000202A3 pstrcat = @ILT+670(_pstrcat)
+          2    1 000202C1 pstrcpy = @ILT+700(_pstrcpy)
+          3    2 00020073 pstrncpy = @ILT+110(_pstrncpy)
+          4    3 00020195 tcc_add_file = @ILT+400(_tcc_add_file)
+          5    4 00020069 tcc_add_include_path = @ILT+100(_tcc_add_include_path)
+          6    5 0002021C tcc_add_library = @ILT+535(_tcc_add_library)
+          7    6 00020235 tcc_add_library_err = @ILT+560(_tcc_add_library_err)
+          8    7 00020366 tcc_add_library_path = @ILT+865(_tcc_add_library_path)
+          9    8 00020064 tcc_add_symbol = @ILT+95(_tcc_add_symbol)
+         10    9 00020172 tcc_add_sysinclude_path = @ILT+365(_tcc_add_sysinclude_path)
+         11    A 00020262 tcc_basename = @ILT+605(_tcc_basename)
+         12    B 00020096 tcc_compile_string = @ILT+145(_tcc_compile_string)
+         13    C 0002014F tcc_define_symbol = @ILT+330(_tcc_define_symbol)
+         14    D 000202E9 tcc_delete = @ILT+740(_tcc_delete)
+         15    E 000201CC tcc_error = @ILT+455(_tcc_error)
+         16    F 00020276 tcc_error_noabort = @ILT+625(_tcc_error_noabort)
+         17   10 000202EE tcc_fileextension = @ILT+745(_tcc_fileextension)
+         18   11 00020253 tcc_free = @ILT+590(_tcc_free)
+         19   12 00020221 tcc_get_symbol = @ILT+540(_tcc_get_symbol)
+         20   13 00020186 tcc_malloc = @ILT+385(_tcc_malloc)
+         21   14 00020019 tcc_mallocz = @ILT+20(_tcc_mallocz)
+         22   15 0002020D tcc_memstats = @ILT+520(_tcc_memstats)
+         23   16 000200CD tcc_new = @ILT+200(_tcc_new)
+         24   17 0002027B tcc_output_file = @ILT+630(_tcc_output_file)
+         25   18 000202F8 tcc_parse_args = @ILT+755(_tcc_parse_args)
+         26   19 0002023A tcc_print_stats = @ILT+565(_tcc_print_stats)
+         27   1A 0002001E tcc_realloc = @ILT+25(_tcc_realloc)
+         28   1B 00020014 tcc_relocate = @ILT+15(_tcc_relocate)
+         29   1C 0002014A tcc_run = @ILT+325(_tcc_run)
+         30   1D 00020267 tcc_set_environment = @ILT+610(_tcc_set_environment)
+         31   1E 000201B8 tcc_set_error_func = @ILT+435(_tcc_set_error_func)
+         32   1F 00020410 tcc_set_lib_path = @ILT+1035(_tcc_set_lib_path)
+         33   20 0002025D tcc_set_options = @ILT+600(_tcc_set_options)
+         34   21 000201BD tcc_set_output_type = @ILT+440(_tcc_set_output_type)
+         35   22 00020343 tcc_strdup = @ILT+830(_tcc_strdup)
+         36   23 000202D0 tcc_undefine_symbol = @ILT+715(_tcc_undefine_symbol)
+         37   24 0002000F tcc_warning = @ILT+10(_tcc_warning)
+
+  Summary
+
+       18000 .data
+        1000 .idata
+        9000 .rdata
+        3000 .reloc
+        1000 .rsrc
+       3E000 .text
+       1F000 .textbss
+
+D:\ProgramFiles\Microsoft Visual Studio 12.0>F:\repo\tcc\tinycc\win32\vs2013\Debug\libtcc_test.exe -
+IF:\repo\tcc\tinycc;F:\repo\tcc\tinycc\include
+tcc: error: cannot find library 'libtcc1'
+tcc: error: undefined symbol 'printf'
+
+
+
+D:\ProgramFiles\Microsoft Visual Studio 12.0>F:\repo\tcc\tinycc\win32\vs2013\Debug\libtcc_test.exe -
+IF:\repo\tcc\tinycc;F:\repo\tcc\tinycc\include -LF:\repo\tcc\tinycc\win32
+Hello World!
+fib(32) = 2178309
+add(32, 64) = 96
+

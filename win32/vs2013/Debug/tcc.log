@@ -1,0 +1,15 @@
+﻿生成启动时间为 2016/6/19 15:17:00。
+     1>项目“F:\repo\tcc\tinycc\win32\vs2013\tcc.vcxproj”在节点 2 上(Build 个目标)。
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(381,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (libtcc.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>Link:
+         D:\ProgramFiles\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\repo\tcc\tinycc\win32\vs2013\Debug\tcc.exe" /INCREMENTAL /NOLOGO /LIBPATH:Debug libtcc.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\repo\tcc\tinycc\win32\vs2013\Debug\tcc.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\repo\tcc\tinycc\win32\vs2013\Debug\tcc.lib" /MACHINE:X86 Debug\tcc.obj
+         tcc.vcxproj -> F:\repo\tcc\tinycc\win32\vs2013\Debug\tcc.exe
+       PostBuildEvent:
+         copy F:\repo\tcc\tinycc\win32\vs2013\Debug\tcc.exe F:\repo\tcc\tinycc\win32\vs2013\..
+         :VCEnd
+         已复制         1 个文件。
+     1>已完成生成项目“F:\repo\tcc\tinycc\win32\vs2013\tcc.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:00.59

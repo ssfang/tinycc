@@ -1,0 +1,66 @@
+fang@DESKTOP-IRTI28J ~
+$ cd /cygdrive/f/repo/tcc/tinycc
+
+fang@DESKTOP-IRTI28J /cygdrive/f/repo/tcc/tinycc
+$ mkdir _build
+
+fang@DESKTOP-IRTI28J /cygdrive/f/repo/tcc/tinycc
+$ cd _build
+
+fang@DESKTOP-IRTI28J /cygdrive/f/repo/tcc/tinycc/_build
+$ ../configure
+../configure:行4: $'\r': 未找到命令
+../configure:行15: $'\r': 未找到命令
+../configure:行18: $'\r': 未找到命令
+../configure:行50: $'\r': 未找到命令
+../configure:行52: 未预期的符号 `$'in\r'' 附近有语法错误
+'./configure:行52: `case $host_os in
+
+fang@DESKTOP-IRTI28J /cygdrive/f/repo/tcc/tinycc/_build
+$ ../configure
+Binary  directory   /usr/local/bin
+TinyCC directory    /usr/local/lib/tcc
+Library directory   /usr/local/lib64
+Include directory   /usr/local/include
+Manual directory    /usr/local/share/man
+Info directory      /usr/local/share/info
+Doc directory       /usr/local/share/doc//usr/local/lib/tcc
+Target root prefix
+Source path      ..
+C compiler       gcc
+cross compilers  no
+Target CPU       x86-64
+Host OS          CYGWIN_NT-10.0
+Target OS        CYGWIN_NT-10.0
+Big Endian       no
+gprof enabled    no
+use libgcc       no
+Creating config.mak and config.h
+
+fang@DESKTOP-IRTI28J /cygdrive/f/repo/tcc/tinycc/_build
+$ make
+gcc -o tcc.o -c ./../tcc.c -DTCC_TARGET_X86_64 -I.  -Wall -g -O0 -Wdeclaration-after-statement -Wno-deprecated-declarations -Wno-strict-aliasing -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-uninitialized -fno-strict-aliasing
+gcc -o libtcc.o -c ./../libtcc.c -DTCC_TARGET_X86_64 -I.  -Wall -g -O0 -Wdeclaration-after-statement -Wno-deprecated-declarations -Wno-strict-aliasing -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-uninitialized -fno-strict-aliasing
+gcc -o tccpp.o -c ./../tccpp.c -DTCC_TARGET_X86_64 -I.  -Wall -g -O0 -Wdeclaration-after-statement -Wno-deprecated-declarations -Wno-strict-aliasing -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-uninitialized -fno-strict-aliasing
+gcc -o tccgen.o -c ./../tccgen.c -DTCC_TARGET_X86_64 -I.  -Wall -g -O0 -Wdeclaration-after-statement -Wno-deprecated-declarations -Wno-strict-aliasing -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-uninitialized -fno-strict-aliasing
+gcc -o tccelf.o -c ./../tccelf.c -DTCC_TARGET_X86_64 -I.  -Wall -g -O0 -Wdeclaration-after-statement -Wno-deprecated-declarations -Wno-strict-aliasing -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-uninitialized -fno-strict-aliasing
+gcc -o tccasm.o -c ./../tccasm.c -DTCC_TARGET_X86_64 -I.  -Wall -g -O0 -Wdeclaration-after-statement -Wno-deprecated-declarations -Wno-strict-aliasing -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-uninitialized -fno-strict-aliasing
+gcc -o tccrun.o -c ./../tccrun.c -DTCC_TARGET_X86_64 -I.  -Wall -g -O0 -Wdeclaration-after-statement -Wno-deprecated-declarations -Wno-strict-aliasing -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-uninitialized -fno-strict-aliasing
+./../tccrun.c: 在函数‘rt_get_caller_pc’中:
+./../tccrun.c:548:33: 错误：‘mcontext_t {或称 struct __mcontext}’没有名为‘gregs’的成员
+         *paddr = uc->uc_mcontext.gregs[REG_RIP];
+                                 ^
+./../tccrun.c:548:40: 错误：‘REG_RIP’未声明(在此函数内第一次使用)
+         *paddr = uc->uc_mcontext.gregs[REG_RIP];
+                                        ^
+./../tccrun.c:548:40: 附注：每个未声明的标识符在其出现的函数内只报告一次
+./../tccrun.c:559:29: 错误：‘mcontext_t {或称 struct __mcontext}’没有名为‘gregs’的成员
+         fp = uc->uc_mcontext.gregs[REG_RBP];
+                             ^
+./../tccrun.c:559:36: 错误：‘REG_RBP’未声明(在此函数内第一次使用)
+         fp = uc->uc_mcontext.gregs[REG_RBP];
+                                    ^
+Makefile:234: recipe for target 'tccrun.o' failed
+make: *** [tccrun.o] Error 1
+
+fang@DESKTOP-IRTI28J /cygdrive/f/repo/tcc/tinycc/_build

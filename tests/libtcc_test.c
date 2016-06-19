@@ -34,11 +34,62 @@ char my_program[] =
 "    return 0;\n"
 "}\n";
 
+// plugin
+char simple_program[] =
+"int sub(int a, int b)\n"
+"{\n"
+"    return a - b;\n"
+"}\n";
+
+int test_my_program(TCCState *s){
+	int(*func)(int);
+
+	if (tcc_compile_string(s, my_program) == -1)
+		return 1;
+
+	/* as a test, we add a symbol that the compiled program can use.
+	You may also open a dll with tcc_add_dll() and use symbols from that */
+	tcc_add_symbol(s, "add", add);
+
+	/* relocate the code */
+	if (tcc_relocate(s, TCC_RELOCATE_AUTO) < 0)
+		return 1;
+
+	/* get entry symbol */
+	func = tcc_get_symbol(s, "foo");
+	if (!func)
+		return 1;
+
+	/* run the code */
+	func(32);
+
+	return 0;
+}
+
+int test_simple_program(TCCState *s){
+	int(*func)(int, int);
+
+	if (tcc_compile_string(s, simple_program) == -1)
+		return 1;
+
+	/* relocate the code */
+	if (tcc_relocate(s, TCC_RELOCATE_AUTO) < 0)
+		return 1;
+
+	/* get entry symbol */
+	func = tcc_get_symbol(s, "sub");
+	if (!func)
+		return 1;
+
+	/* run the code and print the result */
+	printf("%d = %d - %d\n", func(88, 66), 88, 66);
+	return 0;
+}
+
 int main(int argc, char **argv)
 {
     TCCState *s;
-    int i;
-    int (*func)(int);
+    int i, program = 0;
 
     s = tcc_new();
     if (!s) {
@@ -56,30 +107,15 @@ int main(int argc, char **argv)
                 tcc_add_include_path(s, a+2);
             else if (a[1] == 'L')
                 tcc_add_library_path(s, a+2);
-        }
+		} else{
+			program = 1;
+		}
     }
 
     /* MUST BE CALLED before any compilation */
     tcc_set_output_type(s, TCC_OUTPUT_MEMORY);
 
-    if (tcc_compile_string(s, my_program) == -1)
-        return 1;
-
-    /* as a test, we add a symbol that the compiled program can use.
-       You may also open a dll with tcc_add_dll() and use symbols from that */
-    tcc_add_symbol(s, "add", add);
-
-    /* relocate the code */
-    if (tcc_relocate(s, TCC_RELOCATE_AUTO) < 0)
-        return 1;
-
-    /* get entry symbol */
-    func = tcc_get_symbol(s, "foo");
-    if (!func)
-        return 1;
-
-    /* run the code */
-    func(32);
+	program ? test_simple_program(s) : test_my_program(s);
 
     /* delete the state */
     tcc_delete(s);
