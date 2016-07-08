@@ -2,12 +2,36 @@
 ## 使用VS2013了解tcc
 
 vs2015下解决方案用vs2013打开后编译报编译平台错误，libtcc.dll和tcc.exe两个工程项目都修改为vs2013编译平台。
-libtcc.dll输出目录为$(SolutionDir)Debug（），而tcc.exe也是，同时会依赖前者，故其工程配置属性-链接器-常规-附加库目录为Debug或Release，其实可以设置为变量$(Configuration)。
+libtcc.dll输出目录为$(SolutionDir)Debug，而tcc.exe也是，同时会依赖前者，故其工程配置属性-链接器-常规-附加库目录为Debug或Release，其实可以设置为变量$(Configuration)。
 
 添加tinycc\tests\libtcc_test.c作为源的测试libtcc.dll功能的项目libtcc_test。
 需要，其工程配置属性-VC++目录-包含目录设置为“$(SolutionDir)..\..”，同上附加库目录设置为$(Configuration)
 
 $(SolutionDir)$(Configuration)\
+
+## 使用VS2015编译tcc
+
+中间目录改为 $(ProjectName)\$(Platform)\$(Configuration)\
+
+## config.h
+
+这个是在configure后自动收集的，也可以手动填写。如，针对win64的：
+
+```h
+#define TCC_VERSION "0.9.6"
+
+/*
+#define CONFIG_TCCDIR "${CONFIG_TCCDIR}"
+#define TCC_VERSION "${TCC_VERSION}"
+
+#cmakedefine CONFIG_WIN32
+#cmakedefine CONFIG_WIN64
+#cmakedefine CONFIG_TCC_BCHECK
+#cmakedefine CONFIG_TCC_ASSERT
+*/
+```
+
+## TCC
 
 D:\ProgramFiles\Microsoft Visual Studio 12.0>dumpbin  /DEPENDENTS F:\repo\tcc\tinycc\win32\tcc.exe
 Microsoft (R) COFF/PE Dumper Version 12.00.21005.1
